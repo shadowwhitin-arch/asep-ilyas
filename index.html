@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Undangan Asep & Ai</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: sans-serif;
+  background: linear-gradient(#cce7ff, #ffffff);
+}
+
+/* SLIDE */
+.slide {
+  display: none;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+  padding: 20px;
+}
+
+.active {
+  display: flex;
+}
+
+/* BUTTON */
+button {
+  padding: 10px 20px;
+  border-radius: 20px;
+  border: none;
+  background: white;
+  cursor: pointer;
+  margin-top: 15px;
+}
+
+/* NAV */
+.nav {
+  position: fixed;
+  bottom: 10px;
+  width: 100%;
+  text-align: center;
+}
+
+.nav button {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin: 5px;
+}
+
+/* FLOWERS */
+.flower {
+  position: absolute;
+  top: -50px;
+  animation: fall linear infinite;
+  color: #88c;
+}
+
+@keyframes fall {
+  to {
+    transform: translateY(110vh);
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- FLOWERS -->
+<div id="flowers"></div>
+
+<!-- COVER -->
+<div class="slide active" id="cover">
+  <img src="cartoon.png" width="150" onerror="this.style.display='none'">
+  <h2>The Wedding of</h2>
+  <h1>Asep & Ai</h1>
+  <p>07 Juni 2026</p>
+  <button onclick="openInvite()">Buka Undangan</button>
+</div>
+
+<!-- SLIDE 1 -->
+<div class="slide" id="s1">
+  <p id="t1"></p>
+  <p id="t2"></p>
+  <h2>Asep Ilyas</h2>
+  <h2>&</h2>
+  <h2>Ai Siti Rahmawati</h2>
+</div>
+
+<!-- SLIDE 2 -->
+<div class="slide" id="s2">
+  <p id="t3"></p>
+  <h3>07 Juni 2026</h3>
+  <h3>09:00 WIB</h3>
+</div>
+
+<!-- SLIDE 3 -->
+<div class="slide" id="s3">
+  <p id="t4"></p>
+  <p>Kampung citundun, RT.003/RW.008,<br>
+  Setiawargi, Tamansari, Tasikmalaya</p>
+
+  <iframe width="90%" height="200"
+    src="https://maps.google.com/maps?q=tasikmalaya&t=&z=13&output=embed">
+  </iframe>
+</div>
+
+<!-- SLIDE 4 -->
+<div class="slide" id="s4">
+  <p id="t5"></p>
+  <p>Terima kasih atas doa & kehadiran</p>
+  <h3>444401015688504</h3>
+</div>
+
+<!-- NAV -->
+<div class="nav">
+  <button onclick="go(1)"></button>
+  <button onclick="go(2)"></button>
+  <button onclick="go(3)"></button>
+  <button onclick="go(4)"></button>
+</div>
+
+<script>
+let current = 0;
+
+/* OPEN */
+function openInvite() {
+  document.getElementById("cover").classList.remove("active");
+  go(1);
+}
+
+/* NAV */
+function go(n) {
+  document.querySelectorAll(".slide").forEach(s => s.classList.remove("active"));
+  const target = document.getElementById("s" + n);
+  if(target) target.classList.add("active");
+}
+
+/* TYPING */
+function typing(id, text, speed=40) {
+  let el = document.getElementById(id);
+  if(!el) return;
+
+  let i = 0;
+  el.innerHTML = "";
+
+  function type() {
+    if(i < text.length){
+      el.innerHTML += text.charAt(i);
+      i++;
+      setTimeout(type, speed);
+    }
+  }
+  type();
+}
+
+/* INIT */
+window.onload = function(){
+  typing("t1", "Bismillahirrahmanirrahim");
+  typing("t2", "Dan di antara tanda kebesaran-Nya...");
+  typing("t3", "Acara Pernikahan");
+  typing("t4", "Lokasi");
+  typing("t5", "Terima Kasih");
+
+  createFlowers();
+}
+
+/* FLOWERS */
+function createFlowers() {
+  const container = document.getElementById("flowers");
+  for(let i=0;i<15;i++){
+    let f = document.createElement("div");
+    f.className = "flower";
+    f.innerHTML = "❀";
+    f.style.left = Math.random()*100 + "vw";
+    f.style.animationDuration = (5 + Math.random()*5) + "s";
+    container.appendChild(f);
+  }
+}
+</script>
+
+</body>
+</html>
