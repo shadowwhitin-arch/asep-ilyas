@@ -9,63 +9,96 @@
 <style>
 body {
   margin: 0;
-  font-family: sans-serif;
-  background: linear-gradient(#cce7ff, #ffffff);
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(to bottom, #87CEEB, #ffffff);
+  overflow-x: hidden;
 }
 
 /* SLIDE */
 .slide {
   display: none;
   height: 100vh;
+  padding: 20px;
   justify-content: center;
   align-items: center;
   flex-direction: column;
   text-align: center;
-  padding: 20px;
 }
 
 .active {
   display: flex;
 }
 
+/* TYPO */
+h1, h2, h3, p {
+  margin: 5px 0;
+}
+
 /* BUTTON */
 button {
-  padding: 10px 20px;
-  border-radius: 20px;
+  padding: 12px 24px;
+  border-radius: 30px;
   border: none;
   background: white;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
   cursor: pointer;
-  margin-top: 15px;
+  transition: 0.3s;
+}
+button:hover {
+  transform: scale(1.05);
 }
 
 /* NAV */
 .nav {
   position: fixed;
-  bottom: 10px;
+  bottom: 15px;
   width: 100%;
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+.nav button {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
 }
 
-.nav button {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  margin: 5px;
+/* GLASS */
+.card {
+  background: rgba(255,255,255,0.4);
+  backdrop-filter: blur(10px);
+  padding: 20px;
+  border-radius: 20px;
 }
 
 /* FLOWERS */
 .flower {
   position: absolute;
   top: -50px;
+  font-size: 18px;
   animation: fall linear infinite;
-  color: #88c;
+  opacity: 0.7;
+}
+@keyframes fall {
+  to { transform: translateY(110vh); }
 }
 
-@keyframes fall {
-  to {
-    transform: translateY(110vh);
-  }
+/* TYPING */
+.typing {
+  border-right: 2px solid #333;
+  white-space: nowrap;
+  overflow: hidden;
 }
+
+/* BACKGROUND DECOR */
+.bg-decor {
+  position: absolute;
+  width: 200px;
+  opacity: 0.2;
+}
+.top-left { top: 0; left: 0; }
+.bottom-right { bottom: 0; right: 0; }
+
 </style>
 </head>
 
@@ -76,7 +109,7 @@ button {
 
 <!-- COVER -->
 <div class="slide active" id="cover">
-  <img src="cartoon.png" width="150" onerror="this.style.display='none'">
+  <img src="cartoon.png" width="160" onerror="this.style.display='none'">
   <h2>The Wedding of</h2>
   <h1>Asep & Ai</h1>
   <p>07 Juni 2026</p>
@@ -85,36 +118,51 @@ button {
 
 <!-- SLIDE 1 -->
 <div class="slide" id="s1">
-  <p id="t1"></p>
-  <p id="t2"></p>
-  <h2>Asep Ilyas</h2>
-  <h2>&</h2>
-  <h2>Ai Siti Rahmawati</h2>
+  <div class="card">
+    <p id="t1"></p>
+    <p id="t2"></p>
+    <h2>Asep Ilyas</h2>
+    <h2>&</h2>
+    <h2>Ai Siti Rahmawati</h2>
+  </div>
 </div>
 
 <!-- SLIDE 2 -->
 <div class="slide" id="s2">
-  <p id="t3"></p>
-  <h3>07 Juni 2026</h3>
-  <h3>09:00 WIB</h3>
+  <div class="card">
+    <p id="t3"></p>
+    <h3>Minggu, 07 Juni 2026</h3>
+    <h3>09:00 WIB</h3>
+  </div>
 </div>
 
 <!-- SLIDE 3 -->
 <div class="slide" id="s3">
-  <p id="t4"></p>
-  <p>Kampung citundun, RT.003/RW.008,<br>
-  Setiawargi, Tamansari, Tasikmalaya</p>
+  <div class="card">
+    <p id="t4"></p>
+    <p>
+      Kampung Citundun, RT.003/RW.008<br>
+      Setiawargi, Kec. Tamansari<br>
+      Kab. Tasikmalaya, Jawa Barat
+    </p>
 
-  <iframe width="90%" height="200"
-    src="https://maps.google.com/maps?q=tasikmalaya&t=&z=13&output=embed">
-  </iframe>
+    <iframe
+      width="100%"
+      height="200"
+      style="border-radius:10px;margin-top:10px"
+      src="https://maps.google.com/maps?q=Kampung%20citundun%20Tasikmalaya&t=&z=13&output=embed">
+    </iframe>
+  </div>
 </div>
 
 <!-- SLIDE 4 -->
 <div class="slide" id="s4">
-  <p id="t5"></p>
-  <p>Terima kasih atas doa & kehadiran</p>
-  <h3>444401015688504</h3>
+  <div class="card">
+    <p id="t5"></p>
+    <p>Terima kasih atas doa & kehadiran Anda</p>
+    <h3>Rekening:</h3>
+    <h2>444401015688504</h2>
+  </div>
 </div>
 
 <!-- NAV -->
@@ -126,8 +174,6 @@ button {
 </div>
 
 <script>
-let current = 0;
-
 /* OPEN */
 function openInvite() {
   document.getElementById("cover").classList.remove("active");
@@ -137,19 +183,16 @@ function openInvite() {
 /* NAV */
 function go(n) {
   document.querySelectorAll(".slide").forEach(s => s.classList.remove("active"));
-  const target = document.getElementById("s" + n);
-  if(target) target.classList.add("active");
+  document.getElementById("s"+n).classList.add("active");
 }
 
 /* TYPING */
-function typing(id, text, speed=40) {
+function typing(id, text, speed=35) {
   let el = document.getElementById(id);
-  if(!el) return;
-
   let i = 0;
   el.innerHTML = "";
 
-  function type() {
+  function type(){
     if(i < text.length){
       el.innerHTML += text.charAt(i);
       i++;
@@ -161,24 +204,24 @@ function typing(id, text, speed=40) {
 
 /* INIT */
 window.onload = function(){
-  typing("t1", "Bismillahirrahmanirrahim");
-  typing("t2", "Dan di antara tanda kebesaran-Nya...");
-  typing("t3", "Acara Pernikahan");
-  typing("t4", "Lokasi");
-  typing("t5", "Terima Kasih");
+  typing("t1","Bismillahirrahmanirrahim");
+  typing("t2","Dan di antara tanda-tanda kebesaran-Nya...");
+  typing("t3","Acara Pernikahan");
+  typing("t4","Lokasi Acara");
+  typing("t5","Terima Kasih");
 
   createFlowers();
 }
 
 /* FLOWERS */
-function createFlowers() {
+function createFlowers(){
   const container = document.getElementById("flowers");
-  for(let i=0;i<15;i++){
+  for(let i=0;i<20;i++){
     let f = document.createElement("div");
     f.className = "flower";
     f.innerHTML = "❀";
-    f.style.left = Math.random()*100 + "vw";
-    f.style.animationDuration = (5 + Math.random()*5) + "s";
+    f.style.left = Math.random()*100+"vw";
+    f.style.animationDuration = (5+Math.random()*5)+"s";
     container.appendChild(f);
   }
 }
