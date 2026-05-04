@@ -3,102 +3,68 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Undangan Asep & Ai</title>
 
 <style>
 body {
   margin: 0;
-  font-family: 'Segoe UI', sans-serif;
-  background: linear-gradient(to bottom, #87CEEB, #ffffff);
-  overflow-x: hidden;
+  font-family: Arial;
+  background: linear-gradient(#87CEEB, #ffffff);
 }
 
 /* SLIDE */
 .slide {
   display: none;
   height: 100vh;
-  padding: 20px;
   justify-content: center;
   align-items: center;
   flex-direction: column;
   text-align: center;
 }
-
 .active {
   display: flex;
 }
 
-/* TYPO */
-h1, h2, h3, p {
-  margin: 5px 0;
+/* CARD */
+.card {
+  background: rgba(255,255,255,0.5);
+  padding: 20px;
+  border-radius: 20px;
+  backdrop-filter: blur(10px);
 }
 
 /* BUTTON */
 button {
-  padding: 12px 24px;
-  border-radius: 30px;
+  padding: 10px 20px;
+  border-radius: 20px;
   border: none;
   background: white;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
   cursor: pointer;
-  transition: 0.3s;
-}
-button:hover {
-  transform: scale(1.05);
 }
 
 /* NAV */
 .nav {
   position: fixed;
-  bottom: 15px;
+  bottom: 10px;
   width: 100%;
-  display: flex;
-  justify-content: center;
-  gap: 10px;
+  text-align: center;
 }
 .nav button {
-  width: 12px;
-  height: 12px;
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
+  margin: 5px;
 }
 
-/* GLASS */
-.card {
-  background: rgba(255,255,255,0.4);
-  backdrop-filter: blur(10px);
-  padding: 20px;
-  border-radius: 20px;
-}
-
-/* FLOWERS */
+/* FLOWER */
 .flower {
-  position: absolute;
+  position: fixed;
   top: -50px;
-  font-size: 18px;
   animation: fall linear infinite;
-  opacity: 0.7;
 }
 @keyframes fall {
   to { transform: translateY(110vh); }
 }
-
-/* TYPING */
-.typing {
-  border-right: 2px solid #333;
-  white-space: nowrap;
-  overflow: hidden;
-}
-
-/* BACKGROUND DECOR */
-.bg-decor {
-  position: absolute;
-  width: 200px;
-  opacity: 0.2;
-}
-.top-left { top: 0; left: 0; }
-.bottom-right { bottom: 0; right: 0; }
-
 </style>
 </head>
 
@@ -109,7 +75,7 @@ button:hover {
 
 <!-- COVER -->
 <div class="slide active" id="cover">
-  <img src="cartoon.png" width="160" onerror="this.style.display='none'">
+  <img src="cartoon.png" width="150" onerror="this.style.display='none'">
   <h2>The Wedding of</h2>
   <h1>Asep & Ai</h1>
   <p>07 Juni 2026</p>
@@ -131,7 +97,7 @@ button:hover {
 <div class="slide" id="s2">
   <div class="card">
     <p id="t3"></p>
-    <h3>Minggu, 07 Juni 2026</h3>
+    <h3>07 Juni 2026</h3>
     <h3>09:00 WIB</h3>
   </div>
 </div>
@@ -141,16 +107,13 @@ button:hover {
   <div class="card">
     <p id="t4"></p>
     <p>
-      Kampung Citundun, RT.003/RW.008<br>
-      Setiawargi, Kec. Tamansari<br>
-      Kab. Tasikmalaya, Jawa Barat
+      Kampung Citundun RT.003/RW.008<br>
+      Setiawargi, Tamansari<br>
+      Tasikmalaya
     </p>
 
-    <iframe
-      width="100%"
-      height="200"
-      style="border-radius:10px;margin-top:10px"
-      src="https://maps.google.com/maps?q=Kampung%20citundun%20Tasikmalaya&t=&z=13&output=embed">
+    <iframe width="90%" height="200"
+      src="https://maps.google.com/maps?q=tasikmalaya&t=&z=13&output=embed">
     </iframe>
   </div>
 </div>
@@ -159,8 +122,7 @@ button:hover {
 <div class="slide" id="s4">
   <div class="card">
     <p id="t5"></p>
-    <p>Terima kasih atas doa & kehadiran Anda</p>
-    <h3>Rekening:</h3>
+    <p>Terima kasih atas doa & kehadiran</p>
     <h2>444401015688504</h2>
   </div>
 </div>
@@ -174,49 +136,40 @@ button:hover {
 </div>
 
 <script>
-/* OPEN */
 function openInvite() {
   document.getElementById("cover").classList.remove("active");
   go(1);
 }
 
-/* NAV */
 function go(n) {
   document.querySelectorAll(".slide").forEach(s => s.classList.remove("active"));
   document.getElementById("s"+n).classList.add("active");
 }
 
-/* TYPING */
-function typing(id, text, speed=35) {
+function typing(id, text) {
   let el = document.getElementById(id);
   let i = 0;
-  el.innerHTML = "";
-
   function type(){
     if(i < text.length){
-      el.innerHTML += text.charAt(i);
+      el.innerHTML += text[i];
       i++;
-      setTimeout(type, speed);
+      setTimeout(type, 40);
     }
   }
+  el.innerHTML = "";
   type();
 }
 
-/* INIT */
 window.onload = function(){
   typing("t1","Bismillahirrahmanirrahim");
   typing("t2","Dan di antara tanda-tanda kebesaran-Nya...");
   typing("t3","Acara Pernikahan");
-  typing("t4","Lokasi Acara");
+  typing("t4","Lokasi");
   typing("t5","Terima Kasih");
 
-  createFlowers();
-}
-
-/* FLOWERS */
-function createFlowers(){
-  const container = document.getElementById("flowers");
-  for(let i=0;i<20;i++){
+  // flowers
+  let container = document.getElementById("flowers");
+  for(let i=0;i<15;i++){
     let f = document.createElement("div");
     f.className = "flower";
     f.innerHTML = "❀";
